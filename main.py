@@ -8,31 +8,34 @@ existing = raw_input(prompt)
 
 statusMessages = ['Available','Gone hunting','Gadgets matter']
 
-friend_name=[]
-friend_age=[]
-friend_rating=[]
-friend_Is_online=[]
+friends=[]
 
 def addFriend():
-    new_friend_name=raw_input("Enter your Friend's name.. ")
-    new_friend_salutation=raw_input('are they Mr. or Ms.? ')
-    new_friend_age=input('Age? ')
-    new_friend_rating=input('Rating? ')
-    if new_friend_salutation =='Mr.' or new_friend_salutation=='mr.':
-        new_friend_salutation = 'Mr.'
+
+    new_friend = {
+        'name': "",
+        'salutation': "",
+        'age': 0,
+        'rating': 0.0
+    }
+
+    new_friend['name']=raw_input("Enter your Friend's name.. ")
+    new_friend['salutation']=raw_input('are they Mr. or Ms.? ')
+    new_friend['age']=input('Age? ')
+    new_friend['rating']=input('Rating? ')
+    if new_friend['salutation'] =='Mr.' or new_friend['salutation'] =='mr.':
+        new_friend['salutation'] = 'Mr.'
     else:
-        new_friend_salutation = 'Ms.'
+        new_friend['salutation'] = 'Ms.'
 
-    new_friend_name = new_friend_salutation + new_friend_name
+        new_friend['name'] = new_friend['salutation'] + new_friend['name']
 
-    if new_friend_name > 0 and new_friend_age > 12 and new_friend_age < 50:
-        friend_name.append(new_friend_name)
-        friend_age.append(new_friend_age)
-        friend_rating.append(new_friend_rating)
+    if new_friend['name'] > 0 and new_friend['age'] > 12 and new_friend['age'] < 50:
+        friends.append(new_friend)
     else:
         print 'The crediantials don\'t match the profile of a spy'
 
-    return len(friend_name)
+    return len(friends)
 
 def addStatus(currentStatusMsg):
     updatedStatusMsg = None
