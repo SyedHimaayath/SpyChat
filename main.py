@@ -1,9 +1,9 @@
 #importing the default values of variables from the file spy_deatils.py
-from spy_details import spyName,spySalutation,spyAge,spyRating,spyOnline
+from spy_details import spy
 
 print "\nWelcome to the SpyChat"
 
-prompt = "Do you wish to continue as %s%s (Y/N)?" % (spySalutation,spyName)
+prompt = "Do you wish to continue as %s%s (Y/N)?" % (spy['salutation'],spy['name'])
 existing = raw_input(prompt)
 
 statusMessages = ['Available','Gone hunting','Gadgets matter']
@@ -18,7 +18,7 @@ def addFriend():
     new_friend_salutation=raw_input('are they Mr. or Ms.? ')
     new_friend_age=input('Age? ')
     new_friend_rating=input('Rating? ')
-    if new_friend_salutation =='Mr' or spySalutation=='mr':
+    if new_friend_salutation =='Mr.' or new_friend_salutation=='mr.':
         new_friend_salutation = 'Mr.'
     else:
         new_friend_salutation = 'Ms.'
@@ -74,12 +74,12 @@ def addStatus(currentStatusMsg):
 
     return updatedStatusMsg
 
-def chat_init(spyName,spySalutation,spyAge,spyRating):
-    spyName = spySalutation+spyName
+def chat_init(spy):
+    spy['name'] = spy['salutation']+spy['name']
 
-    if spyAge > 12 and spyAge < 50:
-        spyOnline='true'
-        print "Authentication complete. Welcome %s\nAge : %d\nRating : %.2f"% (spyName,spyAge,spyRating)
+    if spy['age'] > 12 and spy['age'] < 50:
+        spy['is_online']='true'
+        print "Authentication complete. Welcome %s\nAge : %d\nRating : %.2f"% (spy['name'],spy['age'],spy['rating'])
         showMenu = 'true'
         currentStatusMsg =None
 
@@ -98,22 +98,22 @@ def chat_init(spyName,spySalutation,spyAge,spyRating):
         print "Sorry, Age is an issue!!"
 
 if existing.upper()=="Y":
-    chat_init(spyName,spySalutation,spyAge,spyRating)
+    chat_init(spy)
 else:
-    spyName=''
-    spySalutation=''
-    spyAge=''
-    spyRating=''
-    spyName = raw_input("Enter your spy name ")
-    if len(spyName) > 0 and spyName.isalpha():
-        spySalutation=raw_input("would you like to be called Mister or Miss? ")
-        if spySalutation=='Mister' or spySalutation=='mister':
-            spySalutation='Mr.'
+    spy['name']=''
+    spy['salutation']=''
+    spy['age'] =''
+    spy['rating'] =''
+    spy['name'] = raw_input("Enter your spy name ")
+    if len(spy['name']) > 0 and spy['name'].isalpha():
+        spy['salutation']=raw_input("would you like to be called Mister or Miss? ")
+        if spy['salutation']=='Mister' or spy['salutation']=='mister':
+            spy['salutation']='Mr.'
         else:
-            spySalutation="Ms."
-        spyAge=input("Age : ")
-        spyRating=input("Rating : ")
-        spyOnline='true'
-        chat_init(spyName, spySalutation, spyAge, spyRating)
+            spy['salutation']="Ms."
+        spy['age'] =input("Age : ")
+        spy['rating'] =input("Rating : ")
+        spy['is_online'] ='true'
+        chat_init(spy)
     else:
         print "Enter a valid Spy Name"
