@@ -3,5 +3,6 @@ spy={
 'salutation' : "Mr.",
 'age' : 35,
 'rating' : 4.5,
-'is_online' : "true"
+'is_online' : "true",
+'friends':['Amy','Quince','Bond','Shank']
 }

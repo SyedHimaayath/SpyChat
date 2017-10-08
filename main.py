@@ -10,33 +10,6 @@ statusMessages = ['Available','Gone hunting','Gadgets matter']
 
 friends=[]
 
-def addFriend():
-
-    new_friend = {
-        'name': "",
-        'salutation': "",
-        'age': 0,
-        'rating': 0.0
-    }
-
-    new_friend['name']=raw_input("Enter your Friend's name.. ")
-    new_friend['salutation']=raw_input('are they Mr. or Ms.? ')
-    new_friend['age']=input('Age? ')
-    new_friend['rating']=input('Rating? ')
-    if new_friend['salutation'] =='Mr.' or new_friend['salutation'] =='mr.':
-        new_friend['salutation'] = 'Mr.'
-    else:
-        new_friend['salutation'] = 'Ms.'
-
-        new_friend['name'] = new_friend['salutation'] + new_friend['name']
-
-    if new_friend['name'] > 0 and new_friend['age'] > 12 and new_friend['age'] < 50:
-        friends.append(new_friend)
-    else:
-        print 'The crediantials don\'t match the profile of a spy'
-
-    return len(friends)
-
 def addStatus(currentStatusMsg):
     updatedStatusMsg = None
 
@@ -77,6 +50,76 @@ def addStatus(currentStatusMsg):
 
     return updatedStatusMsg
 
+def addFriend():
+
+    new_friend = {
+        'name': "",
+        'salutation': "",
+        'age': 0,
+        'rating': 0.0
+    }
+
+    new_friend['name']=raw_input("Enter your Friend's name.. ")
+    new_friend['salutation']=raw_input('are they Mr. or Ms.? ')
+    new_friend['age']=input('Age? ')
+    new_friend['rating']=input('Rating? ')
+    if new_friend['salutation'] =='Mr.' or new_friend['salutation'] =='mr.':
+        new_friend['salutation'] = 'Mr.'
+    else:
+        new_friend['salutation'] = 'Ms.'
+
+        new_friend['name'] = new_friend['salutation'] + new_friend['name']
+
+    if new_friend['name'] > 0 and new_friend['age'] > 12 and new_friend['age'] < 50:
+        friends.append(new_friend)
+    else:
+        print 'The crediantials don\'t match the profile of a spy'
+
+    return len(friends)
+
+def showFriends():
+    print 'FriendList'
+    if existing.upper() == 'Y':
+        i = 1
+        for friend in spy['friends']:
+            print '%d. %s' % (i, friend)
+            i = i + 1
+        choice= int(input('\t1.Send Message to one of them\n\t2.Back'))
+        if choice==1:
+            sel_friend = int(input('Selct a friend to send a Message..'))
+            if i >= sel_friend:
+                friend_name = spy['friends'][sel_friend - 1]
+                sendMessage(friend_name)
+            else:
+                print 'select from the list above '
+        elif choice==2:
+            return 0
+
+    else:
+        i = 1
+        for friend in friends:
+            print '%d. %s' % (i, friend['name'])
+            i= i + 1
+        choice = int(input('\t1.Send Message to one of them\n\t2.Back'))
+        if choice == 1:
+            sel_friend = int(input('Selct a friend to send a Message..'))
+            if i >= sel_friend:
+                friend_name = friends[sel_friend - 1]['name']
+                sendMessage(friend_name)
+            else:
+                print 'select from the list above '
+        elif choice == 2:
+            return 0
+
+chatBox=[]
+
+def sendMessage(friend_name):
+    print 'Message to %s from %s' %(friend_name,spy['name'])
+    message = raw_input('Start typing your message here.. ')
+    if len(message)>=1:
+        chatBox.append(message)
+        print 'Message successfully sent\n'
+
 def chat_init(spy):
     spy['name'] = spy['salutation']+spy['name']
 
@@ -87,7 +130,7 @@ def chat_init(spy):
         currentStatusMsg =None
 
         while showMenu:
-            choices = "What do you want to do? \n1. Add a status update \n2. Add a Friend \n3. Close Application"
+            choices = "What do you want to do? \n1. Add a status update \n2. Add a Friend \n3. Show Friends \n4. Close Application"
             selected = input(choices)
 
             if selected == 1:
@@ -96,6 +139,8 @@ def chat_init(spy):
                 num_of_friends = addFriend()
                 print 'you have %d friends'%(num_of_friends)
             elif selected == 3:
+                showFriends()
+            elif selected == 4:
                 showMenu = False
     else:
         print "Sorry, Age is an issue!!"
