@@ -122,8 +122,8 @@ def readMessage():
 
     friends[sender].chats.append(new_chat)
 
-    print "Your secret message has been saved!"
-
+    print secret_text
+    print 'this secret message is saved!!'
 
 def loadFriends():
     with open("friends.csv.txt", "rb") as friends_list:
@@ -158,8 +158,8 @@ def chat_init(spy_name, spy_salutation, spy_age, spy_rating):
     loadMessage()
 
     while showMenu:
-        choices = "What do you want to do? \n1. Add a status update \n2. Add a Friend \n3. Send Messages " \
-                  "\n4. Read Messages \n5. Read Chats \n6. Close Application"
+        choices = "What do you want to do? \n1. Add a status update \n2. Add a Friend \n3. Send a secret message " \
+                  "\n4. Read a secret Messages \n5. Read chats from a user \n6. Close Application"
         selected = input(choices)
 
         if selected == 1:
@@ -199,5 +199,7 @@ else:
             print "Authentication complete. Welcome %s%s\nAge : %d\nRating : %.2f" % (
             spy.salutation, spy.name, spy.age, spy.rating)
             chat_init(spy.name, spy.salutation, spy.age, spy.rating)
+        else:
+            print "Not qualified enough due to age.."
     else:
         print "Enter a valid Spy Name"
