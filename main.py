@@ -1,20 +1,20 @@
-#importing the default values of variables from the file spy_deatils.py
+# importing the default values of variables from the file spy_deatils.py
 from spy_details import Spy, Chat
 from steganography.steganography import Steganography
-from datetime import datetime
 from termcolor import cprint
 import csv
-from colorama import Fore, Back
+from colorama import Fore
 import sys
 
 spy = Spy('Johnny English', 'Mr.', 33, 5)
 
 print "\nWelcome to the SpyChat"
-prompt = "Do you wish to continue as %s%s (Y/N)?" % (spy.salutation,spy.name)
+prompt = "Do you wish to continue as %s%s (Y/N)?" % (spy.salutation, spy.name)
 existing = raw_input(prompt)
 
-statusMessages = ['Available','Gone hunting','Gadgets matter']
-friends=[]
+statusMessages = ['Available', 'Gone hunting', 'Gadgets matter']
+friends = []
+
 
 def addStatus(currentStatusMsg):
     updatedStatusMsg = None
@@ -56,8 +56,8 @@ def addStatus(currentStatusMsg):
 
     return updatedStatusMsg
 
-def addFriend():
 
+def addFriend():
     # new_friend['name']=raw_input("Enter your Friend's name.. ")
     # new_friend['salutation']=raw_input('are they Mr. or Ms.? ')
     # new_friend['age']=input('Age? ')
@@ -66,7 +66,7 @@ def addFriend():
     newspy = Spy(raw_input("Please enter your friend's name:"), raw_input("Are they Mr. or Ms.?: "),
                  input("What's the age?"), input("What is their Spy rating?"))
 
-    if newspy.salutation =='Mr.' or newspy.salutation =='mr.':
+    if newspy.salutation == 'Mr.' or newspy.salutation == 'mr.':
         newspy.salutation = 'Mr.'
     else:
         newspy.salutation = 'Ms.'
@@ -84,8 +84,8 @@ def addFriend():
 
     return len(friends)
 
-def select_friend():
 
+def select_friend():
     i = 1
     for friend in friends:
         print '%d. %s' % (i, friend.name)
@@ -97,7 +97,7 @@ def select_friend():
 
 def sendMessage():
     friend_selected = select_friend()
-    if friend_selected >=0:
+    if friend_selected >= 0:
         original_image = raw_input("What is the name of the image?")
         output_path = 'output.jpeg'
         text = raw_input("What do you want to say?")
@@ -106,51 +106,54 @@ def sendMessage():
         new_chat = Chat(text, spy.name)
 
         friends[friend_selected].chats.append(new_chat)
-        with open('chats.csv.txt','a') as chat_box:
+        with open('chats.csv.txt', 'a') as chat_box:
             sender = csv.writer(chat_box)
-            sender.writerow([friends[friend_selected].name, new_chat.message, new_chat.sent_by, new_chat.time ])
+            sender.writerow([friends[friend_selected].name, new_chat.message, new_chat.sent_by, new_chat.time])
         print "Your secret message image is ready!"
     else:
         print 'You seem to have no friends'
 
+
 def readMessage():
-    sender=select_friend()
+    sender = select_friend()
     input_path = raw_input("What is the name of the file?")
     secret_text = Steganography.decode(input_path)
-    new_chat = Chat(secret_text,False)
+    new_chat = Chat(secret_text, False)
 
     friends[sender].chats.append(new_chat)
 
     print "Your secret message has been saved!"
+
 
 def loadFriends():
     with open("friends.csv.txt", "rb") as friends_list:
         reader = list(csv.reader(friends_list))
 
         for row in reader[1:]:
-            spy1 = Spy(row[0],row[1],row[2],row[3])
+            spy1 = Spy(row[0], row[1], row[2], row[3])
             friends.append(spy1)
+
 
 def loadMessage():
     with open("chats.csv.txt", "rb") as chat_box:
         reader = list(csv.reader(chat_box))
 
         for row in reader[1:]:
-            chatDetails = Chat(row[1],row[2])
+            chatDetails = Chat(row[1], row[2])
             spy.chats.append(chatDetails)
 
+
 def readChats():
-    i=1
     for chat in spy.chats:
-        cprint(chat.sent_by,'red')
+        cprint(chat.sent_by, 'red')
         print (Fore.BLACK + chat.message)
-        cprint(chat.time,'blue')
-        i=i+1
+        cprint(chat.time, 'blue')
 
-def chat_init( spy_name,spy_salutation,spy_age,spy_rating):
 
+
+def chat_init(spy_name, spy_salutation, spy_age, spy_rating):
     showMenu = 'true'
-    currentStatusMsg =None
+    currentStatusMsg = None
     loadFriends()
     loadMessage()
 
@@ -163,36 +166,38 @@ def chat_init( spy_name,spy_salutation,spy_age,spy_rating):
             currentStatusMsg = addStatus(currentStatusMsg)
         elif selected == 2:
             num_of_friends = addFriend()
-            print 'you have %d friends'%(num_of_friends)
+            print 'you have %d friends' % (num_of_friends)
         elif selected == 3:
             sendMessage()
-        elif selected ==4:
+        elif selected == 4:
             readMessage()
-        elif selected ==5:
+        elif selected == 5:
             readChats()
         elif selected == 6:
             showMenu = False
         else:
             sys.exit()
 
-if existing.upper()=="Y":
-    chat_init(spy.name,spy.salutation,spy.age,spy.rating)
+
+if existing.upper() == "Y":
+    chat_init(spy.name, spy.salutation, spy.age, spy.rating)
 else:
-    spy.name=''
-    spy.salutation=''
-    spy.age=0
-    spy.rating=0.0
+    spy.name = ''
+    spy.salutation = ''
+    spy.age = 0
+    spy.rating = 0.0
     spy.name = raw_input("Enter your spy name ")
     if len(spy.name) > 0 and spy.name.isalpha() == True:
-        spy.salutation =raw_input("would you like to be called Mister or Miss? ")
-        if spy.salutation =='Mister' or spy.salutation =='mister' or spy.salutation == 'Mr.' or spy.salutation =='mr.':
-            spy.salutation='Mr.'
+        spy.salutation = raw_input("would you like to be called Mister or Miss? ")
+        if spy.salutation == 'Mister' or spy.salutation == 'mister' or spy.salutation == 'Mr.' or spy.salutation == 'mr.':
+            spy.salutation = 'Mr.'
         else:
-            spy.salutation="Ms."
-        spy.age =input("Age : ")
-        spy.rating =input("Rating : ")
+            spy.salutation = "Ms."
+        spy.age = input("Age : ")
+        spy.rating = input("Rating : ")
         if spy.age > 12 and spy.age < 50:
-            print "Authentication complete. Welcome %s%s\nAge : %d\nRating : %.2f" % (spy.salutation,spy.name, spy.age, spy.rating)
-            chat_init(spy.name,spy.salutation,spy.age,spy.rating)
+            print "Authentication complete. Welcome %s%s\nAge : %d\nRating : %.2f" % (
+            spy.salutation, spy.name, spy.age, spy.rating)
+            chat_init(spy.name, spy.salutation, spy.age, spy.rating)
     else:
         print "Enter a valid Spy Name"
